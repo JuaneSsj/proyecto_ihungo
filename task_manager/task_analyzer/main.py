@@ -8,12 +8,13 @@ def get_conn():
         dbname=os.getenv("POSTGRES_DB", "task_manager_db"),
         user=os.getenv("POSTGRES_USER", "juanes"),
         password=os.getenv("POSTGRES_PASSWORD", "12345678"),
-        host=os.getenv("DB_HOST", "localhost"),  # en Docker será "db"
+        host=os.getenv("DB_HOST", "localhost"),  
         port=os.getenv("DB_PORT", "5432"),
     )
 
 app = FastAPI(title="Task Analyzer", version="1.0.0")
 
+#Defino como va a salir el json
 class Stats(BaseModel):
     total_tasks: int
     pending: int
@@ -23,7 +24,7 @@ class Stats(BaseModel):
 
 @app.get("/stats", response_model=Stats)
 def get_stats():
-    # Ajusta el FROM si tu tabla no se llama tasks_task
+
     sql = """
     SELECT
       COUNT(*) AS total_tasks,
