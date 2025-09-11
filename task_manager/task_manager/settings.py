@@ -13,6 +13,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
+
+CORS_ALLOWED_ORIGINS = [
+"http://localhost:5173",
+"http://127.0.0.1:5173",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 ANALYZER_BASE_URL = os.getenv("ANALYZER_BASE_URL", "http://localhost:8001")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', # <-- DRF
-    'tasks' #app 
+    'tasks', #app 
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'task_manager.urls'
@@ -83,10 +94,11 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_DB", "task_manager_db"),
         "USER": os.getenv("POSTGRES_USER", "juanes"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "12345678"),
-        "HOST": os.getenv("DB_HOST", "localhost"),  # Django local -> localhost
-        "PORT": os.getenv("DB_PORT", "5432"),
+        "HOST": "localhost",   # Aquí pones localhost para conectar a tu PC
+        "PORT": "5433",        # Puerto que mapeaste en docker-compose
     }
 }
+
 
 
 # Password validation
